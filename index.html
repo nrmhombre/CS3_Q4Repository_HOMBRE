@@ -236,43 +236,186 @@
       // Create satellite group
       const satGroup = new THREE.Group();
       
-      // Satellite body
-      const satGeometry = new THREE.IcosahedronGeometry(0.4, 1);
-      const satMaterial = new THREE.MeshPhongMaterial({
-        color: satData.color,
-        emissive: satData.color,
-        emissiveIntensity: 0.3,
-        shininess: 100
+      // ===== SATELLITE BODY =====
+      // Main body (central box)
+      const bodyGeometry = new THREE.BoxGeometry(0.5, 0.4, 0.35);
+      const bodyMaterial = new THREE.MeshPhongMaterial({
+        color: 0x3a3a3a,
+        shininess: 80,
+        specular: 0x555555
       });
-      const satellite = new THREE.Mesh(satGeometry, satMaterial);
-      satGroup.add(satellite);
+      const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+      satGroup.add(body);
 
-      // Solar panels
-      const panelGeometry = new THREE.BoxGeometry(0.8, 0.1, 0.3);
-      const panelMaterial = new THREE.MeshPhongMaterial({ color: 0x2244aa });
-      const panel1 = new THREE.Mesh(panelGeometry, panelMaterial);
-      panel1.position.x = 0.5;
-      satGroup.add(panel1);
-      const panel2 = new THREE.Mesh(panelGeometry, panelMaterial);
-      panel2.position.x = -0.5;
-      satGroup.add(panel2);
+      // Gold foil texture on body
+      const foilGeometry = new THREE.BoxGeometry(0.52, 0.15, 0.36);
+      const foilMaterial = new THREE.MeshPhongMaterial({
+        color: 0xd4a84b,
+        emissive: 0x2a2010,
+        shininess: 30
+      });
+      const foil = new THREE.Mesh(foilGeometry, foilMaterial);
+      foil.position.y = 0.1;
+      satGroup.add(foil);
 
-      // Antenna
-      const antennaGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8);
-      const antennaMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc });
-      const antenna = new THREE.Mesh(antennaGeometry, antennaMaterial);
-      antenna.position.y = 0.4;
-      satGroup.add(antenna);
+      // ===== SOLAR PANELS (WIDE - REALISTIC STYLE) =====
+      // Left solar panel array - wide rectangular panels like real satellites
+      const panelGroupLeft = new THREE.Group();
+      
+      // Panel frame - wide rectangular shape
+      const frameGeo = new THREE.BoxGeometry(1.8, 0.8, 0.02);
+      const frameMat = new THREE.MeshPhongMaterial({ color: 0x2a2a2a });
+      const leftFrame = new THREE.Mesh(frameGeo, frameMat);
+      panelGroupLeft.add(leftFrame);
+      
+      // Solar cells (blue panels) - wide grid layout
+      const cellRows = 2;
+      const cellCols = 8;
+      for (let row = 0; row < cellRows; row++) {
+        for (let col = 0; col < cellCols; col++) {
+          const cellGeo = new THREE.BoxGeometry(0.2, 0.35, 0.015);
+          const cellMat = new THREE.MeshPhongMaterial({
+            color: 0x1565c0,
+            emissive: 0x0d47a1,
+            shininess: 120
+          });
+          const cell = new THREE.Mesh(cellGeo, cellMat);
+          cell.position.x = -0.7 + col * 0.21;
+          cell.position.y = -0.15 + row * 0.38;
+          cell.position.z = 0.005;
+          panelGroupLeft.add(cell);
+        }
+      }
+      
+      // Panel connector arm - horizontal
+      const connectorGeo = new THREE.BoxGeometry(0.5, 0.06, 0.06);
+      const connectorMat = new THREE.MeshPhongMaterial({ color: 0x444444 });
+      const connector = new THREE.Mesh(connectorGeo, connectorMat);
+      connector.position.set(0.3, 0, 0);
+      panelGroupLeft.add(connector);
+      
+      // Vertical support beam
+      const supportGeo = new THREE.BoxGeometry(0.04, 0.8, 0.04);
+      const support = new THREE.Mesh(supportGeo, connectorMat);
+      support.position.set(0, 0, 0);
+      panelGroupLeft.add(support);
+      
+      panelGroupLeft.position.set(-0.9, 0, 0);
+      panelGroupLeft.rotation.z = Math.PI / 2;
+      satGroup.add(panelGroupLeft);
 
-      // Light on satellite
-      const lightGeometry = new THREE.SphereGeometry(0.08, 16, 16);
-      const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const light = new THREE.Mesh(lightGeometry, lightMaterial);
-      light.position.y = 0.2;
-      satGroup.add(light);
+      // Right solar panel array - wide rectangular
+      const panelGroupRight = new THREE.Group();
+      
+      const rightFrame = new THREE.Mesh(frameGeo.clone(), frameMat);
+      panelGroupRight.add(rightFrame);
+      
+      for (let row = 0; row < cellRows; row++) {
+        for (let col = 0; col < cellCols; col++) {
+          const cellGeo = new THREE.BoxGeometry(0.2, 0.35, 0.015);
+          const cellMat = new THREE.MeshPhongMaterial({
+            color: 0x1565c0,
+            emissive: 0x0d47a1,
+            shininess: 120
+          });
+          const cell = new THREE.Mesh(cellGeo, cellMat);
+          cell.position.x = -0.7 + col * 0.21;
+          cell.position.y = -0.15 + row * 0.38;
+          cell.position.z = 0.005;
+          panelGroupRight.add(cell);
+        }
+      }
+      
+      const connector2 = new THREE.Mesh(connectorGeo.clone(), connectorMat);
+      connector2.position.set(-0.3, 0, 0);
+      panelGroupRight.add(connector2);
+      
+      const support2 = new THREE.Mesh(supportGeo.clone(), connectorMat);
+      support2.position.set(0, 0, 0);
+      panelGroupRight.add(support2);
+      
+      panelGroupRight.position.set(0.9, 0, 0);
+      panelGroupRight.rotation.z = Math.PI / 2;
+      satGroup.add(panelGroupRight);
 
-      // Add point light to satellite
-      const satLight = new THREE.PointLight(satData.color, 0.5, 3);
+      // ===== COMMUNICATION DISH =====
+      const dishGeometry = new THREE.SphereGeometry(0.15, 16, 8, 0, Math.PI);
+      const dishMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        side: THREE.DoubleSide,
+        shininess: 50
+      });
+      const dish = new THREE.Mesh(dishGeometry, dishMaterial);
+      dish.rotation.x = Math.PI / 2;
+      dish.position.set(0, -0.15, 0.2);
+      satGroup.add(dish);
+
+      // Dish arm
+      const armGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.2, 8);
+      const armMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+      const arm = new THREE.Mesh(armGeometry, armMaterial);
+      arm.position.set(0, -0.05, 0.2);
+      satGroup.add(arm);
+
+      // ===== ANTENNAS =====
+      // Main antenna (tall)
+      const antennaGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.4, 8);
+      const antennaMat = new THREE.MeshPhongMaterial({ color: 0x888888 });
+      const mainAntenna = new THREE.Mesh(antennaGeo, antennaMat);
+      mainAntenna.position.set(0.15, 0.35, 0);
+      satGroup.add(mainAntenna);
+
+      // Antenna tip
+      const tipGeo = new THREE.SphereGeometry(0.03, 8, 8);
+      const tipMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const antennaTip = new THREE.Mesh(tipGeo, tipMat);
+      antennaTip.position.set(0.15, 0.55, 0);
+      satGroup.add(antennaTip);
+
+      // Secondary antenna
+      const ant2Geo = new THREE.CylinderGeometry(0.01, 0.01, 0.2, 6);
+      const ant2 = new THREE.Mesh(ant2Geo, antennaMat);
+      ant2.position.set(-0.15, 0.25, 0.1);
+      ant2.rotation.z = 0.3;
+      satGroup.add(ant2);
+
+      // ===== SENSOR/CAMERA =====
+      const sensorGeo = new THREE.BoxGeometry(0.15, 0.08, 0.1);
+      const sensorMat = new THREE.MeshPhongMaterial({ color: 0x222222 });
+      const sensor = new THREE.Mesh(sensorGeo, sensorMat);
+      sensor.position.set(0, -0.2, 0.15);
+      satGroup.add(sensor);
+
+      // Sensor lens
+      const lensGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.02, 16);
+      const lensMat = new THREE.MeshPhongMaterial({ 
+        color: 0x000033, 
+        shininess: 150,
+        specular: 0x6666ff
+      });
+      const lens = new THREE.Mesh(lensGeo, lensMat);
+      lens.rotation.x = Math.PI / 2;
+      lens.position.set(0, -0.2, 0.21);
+      satGroup.add(lens);
+
+      // ===== STATUS LIGHTS =====
+      // Green status light
+      const statusLightGeo = new THREE.SphereGeometry(0.025, 8, 8);
+      const statusLightMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      const statusLight = new THREE.Mesh(statusLightGeo, statusLightMat);
+      statusLight.position.set(0.2, 0.15, 0.18);
+      satGroup.add(statusLight);
+
+      // Orange light
+      const orangeLightGeo = new THREE.SphereGeometry(0.02, 8, 8);
+      const orangeLightMat = new THREE.MeshBasicMaterial({ color: 0xff8800 });
+      const orangeLight = new THREE.Mesh(orangeLightGeo, orangeLightMat);
+      orangeLight.position.set(-0.2, 0.15, 0.18);
+      satGroup.add(orangeLight);
+
+      // Point light from satellite
+      const satLight = new THREE.PointLight(satData.color, 0.4, 4);
+      satLight.position.set(0, 0, 0);
       satGroup.add(satLight);
 
       // Store satellite data
