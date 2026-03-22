@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .stars {
+      display: flex;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .star {
+      font-size: 25px;
+      color: lightgray;
+    }
+
+    .star.active {
+      color: gold;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      border: none;
+      background: #1e73ea;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Add a Movie</h2>
+
+  <label>Title:</label>
+  <input type="text" id="title">
+
+  <label>Year:</label>
+  <input type="number" id="year">
+
+  <label>Genre:</label>
+  <select id="genre">
+    <option>Action</option>
+    <option>Comedy</option>
+    <option>Drama</option>
+    <option>Horror</option>
+  </select>
+
+  <label>Rating:</label>
+  <div class="stars" id="stars">
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+  </div>
+
+  <button onclick="addMovie()">Add Movie</button>
+
+  <h3>Movie List</h3>
+  <ul id="movieList"></ul>
+</div>
+
+<script>
+  let rating = 0;
+  const stars = document.querySelectorAll('.star');
+
+  stars.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      rating = index + 1;
+      updateStars();
+    });
+  });
+
+  function updateStars() {
+    stars.forEach((star, i) => {
+      star.classList.toggle('active', i < rating);
+    });
+  }
+
+  function addMovie() {
+    const title = document.getElementById('title').value;
+    const year = document.getElementById('year').value;
+    const genre = document.getElementById('genre').value;
+
+    if (!title || !year) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    const movie = { title, year, genre, rating };
+
+    let movies = JSON.parse(localStorage.getItem('movies')) || [];
+    movies.push(movie);
+
+    localStorage.setItem('movies', JSON.stringify(movies));
+
+    displayMovies();
+  }
+
+  function displayMovies() {
+    const list = document.getElementById('movieList');
+    list.innerHTML = '';
+
+    const movies = JSON.parse(localStorage.getItem('movies')) || [];
+
+    movies.forEach(movie => {
+      const li = document.createElement('li');
+      li.textContent = `${movie.title} (${movie.year}) - ${movie.genre} - ${movie.rating}★`;
+      list.appendChild(li);
+    });
+  }
+
+  displayMovies();
+</script>
+
+</body>
+</html>
