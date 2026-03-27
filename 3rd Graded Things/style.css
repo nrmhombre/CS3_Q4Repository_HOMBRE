@@ -1,0 +1,338 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background-color: #0a0a0a;
+  color: #00ff00;
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
+}
+
+section, header {
+  padding-left: 5%;
+  padding-right: 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/*---- CSS to control the navigation bar --- 
+Requirements for the navigation:
+- Navigation should all be on one line only and located on the first line of the browser and will not scroll with the rest of the content.  
+- There should also a hover effect on each of the links to change background and foreground color.
+*/
+nav {
+    width: 100%;
+    background-color: #000000;
+    border-bottom: 2px solid #00ff00;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 255, 0, 0.3);
+}
+
+nav a {
+    display: inline-block;
+    color: #00ff00;
+    text-align: center;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border-right: 1px solid #00ff00;
+}
+
+nav a:last-child {
+    border-right: none;
+}
+
+nav a:hover {
+    background-color: #00ff00;
+    color: #000000;
+    text-shadow: none;
+}
+
+/*------ to control coordinatePlane, the location of the small red box  --------*/
+#coordinatePlane {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    max-width: 800px;
+    border: 2px solid #00ff00;
+    background-color: #0a0a0a;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2), inset 0 0 50px rgba(0, 255, 0, 0.05);
+    margin: 30px auto;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.point {
+    height: 12px;
+    width: 12px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
+    position: absolute;
+    z-index: 10;
+}
+
+.axis {
+    position: absolute;
+    background-color: #00ff00;
+    opacity: 0.7;
+}
+
+#xAxis {
+    left: 0;
+    top: 250px;
+    width: 100%;
+    height: 2px;
+}
+
+#yAxis {
+    left: 400px;
+    bottom: 0;
+    width: 2px;
+    height: 100%;
+}
+
+/* CSS properties for footer tag to display socmed icons facebook, twitter and github using sprites ---
+- Discover how to use image sprites to make this work
+*/
+footer {
+    width: 100%;
+    background-color: #000000;
+    color: #00ff00;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 2px solid #00ff00;
+    margin-top: 40px;
+}
+
+footer a {
+  text-decoration: none;
+  margin: 0 15px;
+  color: #00ff00;
+  font-size: 2em;
+  transition: all 0.3s ease;
+}
+
+footer a:hover {
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+  transform: scale(1.2);
+}
+
+/* CSS for documenting process in the table in the errorlogs.html --*/
+table{
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  background-color: #0a0a0a;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+  border: 1px solid #00ff00;
+}
+
+th, td, tr{
+  padding: 12px 15px;
+  border: 1px solid #00ff00;  
+  text-align: left;
+}
+
+th {
+  background-color: #001a00;
+  color: #00ff00;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.rColor {
+  background-color: #001a00;
+  color: #00ff00;
+}
+
+/* Additional military-style styles */
+h1, h2, h3, h4 {
+  color: #00ff00;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+h1 {
+  font-size: 2.5em;
+  border-bottom: 3px solid #00ff00;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+h2 {
+  font-size: 1.8em;
+  color: #00ff00;
+  border-left: 4px solid #00ff00;
+  padding-left: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+h4 {
+  font-size: 1.1em;
+  color: #00cc00;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button {
+  background-color: #001a00;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  padding: 12px 30px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+button:hover {
+  background-color: #00ff00;
+  color: #000000;
+  text-shadow: none;
+  box-shadow: 0 0 20px #00ff00;
+}
+
+input[type="number"] {
+  background-color: #0a0a0a;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  padding: 10px 15px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  width: 100px;
+  margin-right: 10px;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+input[type="number"]:focus {
+  border-color: #00ff00;
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  background-color: #001a00;
+}
+
+input[type="number"]::placeholder {
+  color: #006600;
+}
+
+a {
+  color: #00ff00;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+}
+
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #00ff00, transparent);
+  margin: 30px 0;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+/* Card-like sections */
+section {
+  background-color: #0a0a0a;
+  padding: 30px;
+  margin: 20px auto;
+  border: 1px solid #00ff00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+}
+
+/* Tactical header style */
+header {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  border-bottom: 2px solid #00ff00;
+  padding-bottom: 20px;
+}
+
+/* Glowing text effect for important elements */
+.glow {
+  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  section, header {
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+  
+  nav a {
+    padding: 12px 15px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+    letter-spacing: 2px;
+  }
+  
+  h2 {
+    font-size: 1.4em;
+  }
+  
+  #coordinatePlane {
+    width: 100%;
+    height: 350px;
+  }
+  
+  #yAxis {
+    left: 50%;
+  }
+  
+  #xAxis {
+    top: 50%;
+  }
+}
+
+/* Scanline effect for military feel */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
